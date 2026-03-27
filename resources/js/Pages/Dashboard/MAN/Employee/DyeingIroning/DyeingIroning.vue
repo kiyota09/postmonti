@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, Link } from '@inertiajs/vue3'; // Added Link import
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Iron, AlertCircle, X } from 'lucide-vue-next';
+import { Shirt, AlertCircle, X } from 'lucide-vue-next';
 
 const props = defineProps({
     squeezerJobs: Array,
@@ -58,13 +58,10 @@ const submitIron = () => {
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-3">
                             <div>
-                                <p class="font-mono text-sm font-bold text-indigo-600 dark:text-indigo-400">{{ job.code
-                                    }}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Fabric: {{
-                                    job.softener_job?.fabric?.code || 'N/A' }}</p>
+                                <p class="font-mono text-sm font-bold text-indigo-600 dark:text-indigo-400">{{ job.code }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Fabric: {{ job.softener_job?.fabric?.code || 'N/A' }}</p>
                             </div>
-                            <span
-                                class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-bold">Ready</span>
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-bold">Ready</span>
                         </div>
 
                         <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
@@ -72,15 +69,14 @@ const submitIron = () => {
                             <p><span class="font-medium">Softener Job:</span> {{ job.softener_job?.code || 'N/A' }}</p>
                             <p><span class="font-medium">Operator:</span> {{ job.operator?.name }}</p>
                             <p><span class="font-medium">Shift:</span> {{ job.shift }}</p>
-                            <p><span class="font-medium">Date:</span> {{ new Date(job.processed_at).toLocaleString() }}
-                            </p>
+                            <p><span class="font-medium">Date:</span> {{ new Date(job.processed_at).toLocaleString() }}</p>
                             <p v-if="job.remarks"><span class="font-medium">Remarks:</span> {{ job.remarks }}</p>
                         </div>
 
                         <div class="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-800">
                             <button @click="openIronModal(job)"
                                 class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2">
-                                <Iron class="w-4 h-4" /> Iron Fabric
+                                <Shirt class="w-4 h-4" /> Iron Fabric
                             </button>
                         </div>
                     </div>
@@ -94,14 +90,11 @@ const submitIron = () => {
             </div>
         </div>
 
-        <!-- Iron Modal -->
         <div v-if="showIronModal"
             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
             @click.self="closeModal">
-            <div
-                class="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl w-full max-w-md overflow-hidden border border-gray-200 dark:border-zinc-800">
-                <div
-                    class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50">
+            <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl w-full max-w-md overflow-hidden border border-gray-200 dark:border-zinc-800">
+                <div class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800/50">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">Record Ironing Process</h3>
                     <button @click="closeModal" class="hover:opacity-70">
                         <X class="w-5 h-5 text-gray-500" />
@@ -110,10 +103,8 @@ const submitIron = () => {
 
                 <form @submit.prevent="submitIron" class="p-6 space-y-4">
                     <div class="bg-gray-50 dark:bg-zinc-800 p-3 rounded-lg">
-                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Squeezer Job: <span
-                                class="font-mono">{{ currentSqueezerJob?.code }}</span></p>
-                        <p class="text-sm text-gray-500">Fabric: {{ currentSqueezerJob?.softener_job?.fabric?.code }}
-                        </p>
+                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Squeezer Job: <span class="font-mono">{{ currentSqueezerJob?.code }}</span></p>
+                        <p class="text-sm text-gray-500">Fabric: {{ currentSqueezerJob?.softener_job?.fabric?.code }}</p>
                     </div>
 
                     <div>

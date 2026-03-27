@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Package, Shirt, Droplet, Factory, Iron, Box, CheckCircle, XCircle, ArrowRight } from 'lucide-vue-next';
+import { Package, Shirt, Droplet, Factory, Box, CheckCircle, XCircle, ArrowRight } from 'lucide-vue-next';
 
 const props = defineProps({
     orders: Array,

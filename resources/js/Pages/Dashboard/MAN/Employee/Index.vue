@@ -1,17 +1,14 @@
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-
-// Props defined to satisfy the layout if necessary, 
-// though not used for the simple display.
-
-</script>
-
 <template>
     <AuthenticatedLayout>
-        <div class="flex items-center justify-center min-h-[400px]">
-            <h1 class="text-4xl font-black text-gray-800 dark:text-white uppercase tracking-widest">
-                Manufacturing Staff Management
-            </h1>
+        <div class="p-6 text-center">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Manufacturing Staff Dashboard</h1>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">
+                Please contact HR to assign your manufacturing role.
+            </p>
         </div>
     </AuthenticatedLayout>
 </template>
+
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+</script>

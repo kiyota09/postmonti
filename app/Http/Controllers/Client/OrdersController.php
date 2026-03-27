@@ -10,7 +10,7 @@ class OrdersController extends Controller
     public function orders()
     {
         // TODO: Replace dummy stats with actual DB queries
-        return Inertia::render('CLIENT/orders', [
+        return Inertia::render('Client/Orders', [
             'stats' => [
                 'pending_orders' => 0,
                 'completed_orders' => 0,

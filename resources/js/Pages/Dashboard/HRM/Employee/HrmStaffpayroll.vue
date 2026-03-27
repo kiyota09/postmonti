@@ -83,6 +83,7 @@ const submitPayrollEntry = () => {
     payrollForm.post(route('hrm.employee.payroll.store'), {
         preserveScroll: true,
         onSuccess: () => {
+            console.log(payrollForm)
             payrollForm.reset();
         },
     });

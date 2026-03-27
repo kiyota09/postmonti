@@ -2,56 +2,96 @@
 
 use App\Http\Controllers\Auth\ClientAuthController;
 use App\Http\Controllers\Auth\SupplierAuthController;
-use App\Http\Controllers\client\DashboardController as ClientDashboardController;
-use App\Http\Controllers\client\InvoicesController;
-use App\Http\Controllers\client\OrdersController;
-use App\Http\Controllers\client\SupportController;
-use App\Http\Controllers\crm\manager\CrmApprovalController;
-use App\Http\Controllers\crm\manager\OversightController;
-use App\Http\Controllers\crm\manager\StrategyController;
-use App\Http\Controllers\crm\staff\CustomerprofileController;
-use App\Http\Controllers\crm\staff\LeadController;
-use App\Http\Controllers\crm\staff\StaffDayController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\eco\manager\BookController;
-use App\Http\Controllers\eco\manager\ClientVerificationController;
-use App\Http\Controllers\eco\manager\CreditController;
-use App\Http\Controllers\eco\staff\CustomerController;
-use App\Http\Controllers\eco\staff\OrdermngController;
-use App\Http\Controllers\eco\staff\ProductsController;
-use App\Http\Controllers\hrm\employee\AttendanceController;
-use App\Http\Controllers\hrm\employee\HolidayController;
-use App\Http\Controllers\hrm\employee\HrmstaffpayrollController;
-use App\Http\Controllers\hrm\employee\InterviewController;
-use App\Http\Controllers\hrm\employee\LeaveController;
-use App\Http\Controllers\hrm\employee\TrainingController;
-use App\Http\Controllers\hrm\manager\AnalyticsController;
-use App\Http\Controllers\hrm\manager\ApplicantController;
-use App\Http\Controllers\hrm\manager\ManagerEmployeeController;
-use App\Http\Controllers\hrm\manager\OnboardingController;
-use App\Http\Controllers\hrm\manager\PayrollController;
-use App\Http\Controllers\inv\InventoryController as InvInventoryController;
-use App\Http\Controllers\inv\MaterialController;
-use App\Http\Controllers\inv\ProductController;
-use App\Http\Controllers\pro\manager\ProcurementController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\scm\employee\InboundController;
-use App\Http\Controllers\scm\employee\InventoryController as ScmInventoryController;
-use App\Http\Controllers\scm\employee\RecievingController;
-use App\Http\Controllers\scm\employee\VerificationController;
-use App\Http\Controllers\scm\manager\CloseController; // New SCM payment controller
-use App\Http\Controllers\scm\manager\PaymentController; // New SCM forwarding controller
-use App\Http\Controllers\scm\manager\ScmManagerController;
-use App\Http\Controllers\scm\manager\VendorController; // New PRO procurement controller
+
+use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Client\InvoicesController;
+use App\Http\Controllers\Client\OrdersController;
+use App\Http\Controllers\Client\ProductController as ClientProductController; // Aliased
+use App\Http\Controllers\Client\ProfileController as ClientProfileController; // Aliased (client profile)
+use App\Http\Controllers\Client\QuotationController; // Client quotation controller
+use App\Http\Controllers\Client\SupportController;
+
+use App\Http\Controllers\CRM\Manager\CrmApprovalController;
+use App\Http\Controllers\CRM\Manager\OversightController;
+use App\Http\Controllers\CRM\Manager\StrategyController;
+
+use App\Http\Controllers\CRM\Staff\CustomerprofileController;
+use App\Http\Controllers\CRM\Staff\LeadController;
+use App\Http\Controllers\CRM\Staff\StaffDayController;
+
+use App\Http\Controllers\DashboardController;
+
+use App\Http\Controllers\ECO\EcoDashboardController;
+
+use App\Http\Controllers\ECO\Manager\BookController;
+use App\Http\Controllers\ECO\Manager\ClientVerificationController;
+use App\Http\Controllers\ECO\Manager\CreditController;
+use App\Http\Controllers\ECO\Manager\OrderManagementController;
+use App\Http\Controllers\ECO\Manager\QuotationController as EcoQuotationController; // Aliased to avoid conflict with client controller
+use App\Http\Controllers\ECO\Manager\StoreController;
+
+use App\Http\Controllers\ECO\Staff\CustomerController;
+use App\Http\Controllers\ECO\Staff\OrdermngController;
+use App\Http\Controllers\ECO\Staff\ProductsController;
+
+use App\Http\Controllers\HRM\Employee\AttendanceController;
+use App\Http\Controllers\HRM\Employee\HolidayController;
+use App\Http\Controllers\HRM\Employee\HrmstaffpayrollController;
+use App\Http\Controllers\HRM\Employee\InterviewController;
+use App\Http\Controllers\HRM\Employee\LeaveController;
+use App\Http\Controllers\HRM\Employee\TrainingController;
+
+use App\Http\Controllers\HRM\Manager\AnalyticsController;
+use App\Http\Controllers\HRM\Manager\ApplicantController;
+use App\Http\Controllers\HRM\Manager\ManagerEmployeeController;
+use App\Http\Controllers\HRM\Manager\OnboardingController;
+use App\Http\Controllers\HRM\Manager\PayrollController;
+
+use App\Http\Controllers\INV\Manager\ProductionPlanningController;
+
+use App\Http\Controllers\INV\InventoryController as InvInventoryController;
+use App\Http\Controllers\INV\MaterialController;
+use App\Http\Controllers\INV\ProductController as InvProductController; // Aliased
+
+use App\Http\Controllers\MAN\Manager\ManufacturingManagerController;
+
+use App\Http\Controllers\MAN\Staff\CheckerQualityController;
+use App\Http\Controllers\MAN\Staff\DyeingColorController;
+use App\Http\Controllers\MAN\Staff\DyeingFabricSoftenerController;
+use App\Http\Controllers\MAN\Staff\DyeingFormingController;
+use App\Http\Controllers\MAN\Staff\DyeingIroningController;
+use App\Http\Controllers\MAN\Staff\DyeingPackagingController;
+use App\Http\Controllers\MAN\Staff\DyeingSqueezerController;
+use App\Http\Controllers\MAN\Staff\KnittingYarnController;
+use App\Http\Controllers\MAN\Staff\MaintenanceCheckerController;
+
+use App\Http\Controllers\PRO\Manager\ProcurementController;
+
+use App\Http\Controllers\SCM\Employee\InboundController;
+use App\Http\Controllers\SCM\Employee\InventoryController as ScmInventoryController;
+use App\Http\Controllers\SCM\Employee\RecievingController;
+use App\Http\Controllers\SCM\Employee\VerificationController;
+
+use App\Http\Controllers\SCM\Manager\CloseController;
+use App\Http\Controllers\SCM\Manager\PaymentController;
+use App\Http\Controllers\SCM\Manager\SalesOrderController;
+use App\Http\Controllers\SCM\Manager\ScmManagerController;
+use App\Http\Controllers\SCM\Manager\VendorController;
+
 use App\Http\Controllers\SUPPLIERS\SupplierDashboardController;
-use App\Http\Controllers\trainee\TraineeAttendanceController;
-use App\Http\Controllers\trainee\TraineePayslipController;
-use App\Http\Controllers\trainee\TraineeTimeKeepingController;
-use App\Http\Controllers\users\AppController;
-use App\Http\Controllers\users\ClockController;
-use App\Http\Controllers\users\leaveController as UserLeaveController;
+
+use App\Http\Controllers\TRAINEE\TraineeAttendanceController;
+use App\Http\Controllers\TRAINEE\TraineePayslipController;
+use App\Http\Controllers\TRAINEE\TraineeTimeKeepingController;
+
+use App\Http\Controllers\USERS\AppController;
+use App\Http\Controllers\USERS\ClockController;
+use App\Http\Controllers\USERS\leaveController as UserLeaveController;
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\hrm\employee\GeofenceController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Core Application Routes
@@ -78,7 +118,7 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/apply', function () {
-    return inertia('Auth/apply');
+    return inertia('Auth/Apply');
 })->name('apply');
 
 // Route handles the actual form submission from public users
@@ -128,7 +168,7 @@ Route::middleware(['auth', 'position:staff,manager'])->prefix('dashboard/employe
 
     // Payroll & Compensation Module
     Route::get('/payslip', function () {
-        return inertia('Dashboard/USERS/payslip');
+        return inertia('Dashboard/USERS/Payslip');
     })->name('employee.ui.payslip');
 
 });
@@ -339,9 +379,16 @@ Route::prefix('dashboard/scm')->name('scm.')->middleware(['auth', 'verified'])->
 
         Route::get('/manager', [DashboardController::class, 'index'])->name('manager.dashboard');
 
+        // Sales Orders from ECO
+        Route::get('/sales-orders', [SalesOrderController::class, 'index'])->name('manager.sales-orders');
+        Route::post('/sales-orders/{order}/forward-to-inv', [SalesOrderController::class, 'forwardToINV'])->name('manager.sales-orders.forward');
+
         // Forward material requests to PRO
         Route::post('/material-requests/{id}/forward', [ScmManagerController::class, 'forwardMaterialRequest'])
             ->name('manager.material-request.forward');
+
+        Route::post('/orders/{order}/approve-manufacturing', [ScmManagerController::class, 'approveManufacturing'])
+            ->name('manager.approve-manufacturing');
 
         // Payment approval
         Route::get('/manager/payments', [PaymentController::class, 'index'])->name('manager.payments');
@@ -396,13 +443,105 @@ Route::prefix('dashboard/fin')->name('fin.')->middleware(['auth', 'verified'])->
 |--------------------------------------------------------------------------
 */
 Route::prefix('dashboard/man')->name('man.')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/manager', [DashboardController::class, 'index'])
-        ->middleware(['role:MAN', 'position:manager'])
-        ->name('manager.dashboard');
+    // ── Manager Routes ──────────────────────────────────────────────────────
+    Route::middleware(['role:MAN', 'position:manager'])->group(function () {
+        Route::get('/', [ManufacturingManagerController::class, 'index'])->name('manager.dashboard');
+        Route::get('/production', [ManufacturingManagerController::class, 'production'])->name('manager.production');
+        Route::get('/rejected', [ManufacturingManagerController::class, 'rejected'])->name('manager.rejected');
+        Route::post('/orders/{id}/forward-to-checker', [ManufacturingManagerController::class, 'forwardToChecker'])->name('manager.forward-to-checker');
+        Route::post('/staff/{id}/update-role', [ManufacturingManagerController::class, 'updateStaffRole'])->name('manager.update-staff-role');
+        Route::post('/packages/{id}/send-to-logistics', [ManufacturingManagerController::class, 'sendToLogistics'])->name('manager.send-to-logistics');
+    });
 
-    Route::get('/staff', [DashboardController::class, 'index'])
-        ->middleware(['role:MAN', 'position:staff'])
-        ->name('employee.dashboard');
+    // ── Staff Routes ────────────────────────────────────────────────────────
+    Route::middleware(['role:MAN', 'position:staff'])->group(function () {
+        // Knitting Yarn
+        Route::prefix('knitting-yarn')->name('staff.knitting-yarn.')->controller(KnittingYarnController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/knitting-yarn', 'knittingYarn')->name('page');
+            Route::post('/fabric', 'storeFabric')->name('store-fabric');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::post('/machine-report', 'reportMachine')->name('report-machine');
+        });
+
+        // Dyeing Color
+        Route::prefix('dyeing-color')->name('staff.dyeing-color.')->controller(DyeingColorController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/dyeing-color', 'dyeingColor')->name('page');
+            Route::post('/dye', 'storeDye')->name('store-dye');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::post('/machine-report', 'reportMachine')->name('report-machine');
+        });
+
+        // Dyeing Fabric Softener
+        Route::prefix('dyeing-fabric-softener')->name('staff.dyeing-fabric-softener.')->controller(DyeingFabricSoftenerController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/dyeing-fabric-softener', 'dyeingFabricSoftener')->name('page');
+            Route::post('/soften', 'storeSoftener')->name('store-soften');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::post('/machine-report', 'reportMachine')->name('report-machine');
+        });
+
+        // Dyeing Squeezer
+        Route::prefix('dyeing-squeezer')->name('staff.dyeing-squeezer.')->controller(DyeingSqueezerController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/dyeing-squeezer', 'dyeingSqueezer')->name('page');
+            Route::post('/squeeze', 'storeSqueezer')->name('store-squeeze');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::post('/machine-report', 'reportMachine')->name('report-machine');
+        });
+
+        // Dyeing Ironing
+        Route::prefix('dyeing-ironing')->name('staff.dyeing-ironing.')->controller(DyeingIroningController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/dyeing-ironing', 'dyeingIroning')->name('page');
+            Route::post('/iron', 'storeIron')->name('store-iron');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::post('/machine-report', 'reportMachine')->name('report-machine');
+        });
+
+        // Dyeing Forming
+        Route::prefix('dyeing-forming')->name('staff.dyeing-forming.')->controller(DyeingFormingController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/dyeing-forming', 'dyeingForming')->name('page');
+            Route::post('/form', 'storeForm')->name('store-form');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::post('/machine-report', 'reportMachine')->name('report-machine');
+        });
+
+        // Dyeing Packaging
+        Route::prefix('dyeing-packaging')->name('staff.dyeing-packaging.')->controller(DyeingPackagingController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/packaging', 'packaging')->name('page');
+            Route::post('/package', 'storePackage')->name('store-package');
+        });
+
+        // Maintenance Checker
+        Route::prefix('maintenance-checker')->name('staff.maintenance-checker.')->controller(MaintenanceCheckerController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/maintenance', 'maintenance')->name('page');
+            Route::post('/machine', 'storeMachine')->name('store-machine');
+            Route::patch('/machine/{id}', 'updateMachineStatus')->name('update-machine');
+            Route::get('/reports', 'reports')->name('reports');
+            Route::patch('/report/{id}', 'resolveReport')->name('resolve-report');
+        });
+
+        // Checker Quality
+        Route::prefix('checker-quality')->name('staff.checker-quality.')->controller(CheckerQualityController::class)->group(function () {
+            Route::get('/', 'index')->name('dashboard');
+            Route::get('/production', 'production')->name('production');
+            Route::post('/order/{id}/check-inventory', 'checkInventory')->name('check-inventory');
+            Route::post('/order/{id}/start-production', 'startProduction')->name('start-production');
+            Route::post('/fabric/{id}/pass', 'passFabric')->name('pass-fabric');
+            Route::post('/dye/{id}/pass', 'passDye')->name('pass-dye');
+            Route::post('/softener/{id}/pass', 'passSoftener')->name('pass-softener');
+            Route::post('/squeezer/{id}/pass', 'passSqueezer')->name('pass-squeezer');
+            Route::post('/iron/{id}/pass', 'passIron')->name('pass-iron');
+            Route::post('/form/{id}/pack', 'packForm')->name('pack-form');
+            Route::post('/form/{id}/reject', 'rejectForm')->name('reject-form');
+            Route::post('/package/{id}/assign-to-order', 'assignPackageToOrder')->name('assign-package');
+        });
+    });
 });
 
 /*
@@ -419,6 +558,15 @@ Route::prefix('dashboard/inv')->name('inv.')->middleware(['auth', 'verified'])->
     Route::get('/manager', [DashboardController::class, 'index'])
         ->middleware(['role:INV', 'position:manager'])
         ->name('manager.dashboard');
+
+    // Production Planning (Sales Orders from SCM)
+    Route::get('/production-planning', [ProductionPlanningController::class, 'index'])
+        ->middleware(['role:INV', 'position:manager'])
+        ->name('manager.production-planning');
+
+    Route::post('/production-planning/{order}/check', [ProductionPlanningController::class, 'checkAvailability'])
+        ->middleware(['role:INV', 'position:manager'])
+        ->name('manager.production-planning.check');
 
     // ── Warehouse Operations ────────────────────────────────────────────────
     Route::get('/inventory', [InvInventoryController::class, 'inventory'])
@@ -463,25 +611,11 @@ Route::prefix('dashboard/inv')->name('inv.')->middleware(['auth', 'verified'])->
         ->name('manager.material.delegate');
 
     // ── Master Products Database ────────────────────────────────────────────
-    Route::get('/product', [ProductController::class, 'product'])
-        ->middleware(['role:INV', 'position:manager'])
-        ->name('manager.product');
-
-    Route::post('/product', [ProductController::class, 'store'])
-        ->middleware(['role:INV', 'position:manager'])
-        ->name('manager.product.store');
-
-    Route::post('/product/{id}/update', [ProductController::class, 'update'])
-        ->middleware(['role:INV', 'position:manager'])
-        ->name('manager.product.update');
-
-    Route::delete('/product/image/{imageId}', [ProductController::class, 'destroyImage'])
-        ->middleware(['role:INV', 'position:manager'])
-        ->name('manager.product.image.destroy');
-
-    Route::delete('/product/{id}', [ProductController::class, 'destroy'])
-        ->middleware(['role:INV', 'position:manager'])
-        ->name('manager.product.destroy');
+    Route::get('/product', [InvProductController::class, 'product'])->name('manager.product');
+    Route::post('/product', [InvProductController::class, 'store'])->name('manager.product.store');
+    Route::post('/product/{id}/update', [InvProductController::class, 'update'])->name('manager.product.update');
+    Route::delete('/product/image/{imageId}', [InvProductController::class, 'destroyImage'])->name('manager.product.image.destroy');
+    Route::delete('/product/{id}', [InvProductController::class, 'destroy'])->name('manager.product.destroy');
 
     Route::get('/staff', [DashboardController::class, 'index'])
         ->middleware(['role:INV', 'position:staff'])
@@ -581,9 +715,19 @@ Route::prefix('dashboard/crm')->name('crm.')->middleware(['auth', 'verified'])->
 */
 Route::prefix('dashboard/eco')->name('eco.')->middleware(['auth', 'verified'])->group(function () {
 
-    // ── ECO Manager Routes ──────────────────────────────────────────────────
+    // ── ECO Manager Routes (Unified) ────────────────────────────────────────
     Route::middleware(['role:ECO', 'position:manager'])->prefix('manager')->name('manager.')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        // Unified dashboard
+        Route::get('/', [EcoDashboardController::class, 'index'])->name('dashboard');
+
+        // Storefront
+        Route::get('/store', [StoreController::class, 'index'])->name('store');
+
+        // Order Management (queue)
+        Route::get('/orders', [OrderManagementController::class, 'index'])->name('orders');
+        Route::post('/orders/{order}/approve', [OrderManagementController::class, 'approveOrder'])->name('order.approve');
+        Route::post('/orders/{order}/reject', [OrderManagementController::class, 'rejectOrder'])->name('order.reject');
+        Route::post('/orders/{order}/send-to-scm', [OrderManagementController::class, 'sendToSCM'])->name('order.send-to-scm');
 
         // Pricing Book Tiering
         Route::get('/book', [BookController::class, 'book'])->name('book');
@@ -597,13 +741,19 @@ Route::prefix('dashboard/eco')->name('eco.')->middleware(['auth', 'verified'])->
         Route::post('/credit/verify/{po}', [CreditController::class, 'verifyOrder'])->name('credit.verify');
         Route::patch('/credit/{account}/toggle', [CreditController::class, 'toggleStatus'])->name('credit.toggle-status');
         Route::delete('/credit/{account}', [CreditController::class, 'destroy'])->name('credit.destroy');
+        Route::get('/credit/client/{client}/history', [CreditController::class, 'clientHistory'])->name('credit.client-history');
+
+        // Quotation Management (NEW - using aliased controller)
+        Route::get('/quotations', [EcoQuotationController::class, 'index'])->name('quotations');
+        Route::get('/quotations/{id}', [EcoQuotationController::class, 'show'])->name('quotations.show');
+        Route::post('/quotations/{id}/respond', [EcoQuotationController::class, 'respond'])->name('quotations.respond');
 
         // B2B Client Verification Setup
         Route::get('/verification', [ClientVerificationController::class, 'index'])->name('verification.index');
         Route::patch('/clients/{client}/status', [ClientVerificationController::class, 'updateStatus'])->name('clients.status.update');
     });
 
-    // ── ECO Staff Routes ────────────────────────────────────────────────────
+    // ── ECO Staff Routes (will be phased out, but keep for now) ─────────────
     Route::middleware(['role:ECO', 'position:staff'])->group(function () {
         Route::get('/staff', [DashboardController::class, 'index'])->name('employee.dashboard');
 
@@ -708,7 +858,14 @@ Route::post('client/logout', [ClientAuthController::class, 'logout'])
 */
 Route::middleware('auth:client')->prefix('partner')->name('client.')->group(function () {
     Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/products', [ClientProductController::class, 'index'])->name('products');
+    Route::post('/quotations', [QuotationController::class, 'store'])->name('quotations.store');
+    Route::post('/quotations/{quotation}/accept', [QuotationController::class, 'accept'])->name('quotations.accept');
+    Route::post('/quotations/{quotation}/reject', [QuotationController::class, 'reject'])->name('quotations.reject');
+    Route::get('/profile', [ClientProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ClientProfileController::class, 'update'])->name('profile.update');
     Route::get('/orders', [OrdersController::class, 'orders'])->name('orders');
+    Route::post('/orders/{order}/accept', [OrdersController::class, 'acceptPurchaseOrder'])->name('orders.accept'); // NEW
     Route::post('/purchase-order', [ClientDashboardController::class, 'placeOrder'])->name('purchase-order.store');
     Route::post('/quotation/{po}/accept', [ClientDashboardController::class, 'acceptQuotation'])->name('quotation.accept');
     Route::get('/invoices', [InvoicesController::class, 'invoices'])->name('invoices');
@@ -758,14 +915,4 @@ Route::middleware('auth:supplier')->prefix('supplier')->name('supplier.')->group
 | Framework Generated Auth Routes (Breeze)
 |--------------------------------------------------------------------------
 */
-
-
-
-///////////////////////// GEOLOCATION /////////////////////////////
-Route::get('/admin/geofence', [GeofenceController::class, 'index'])->name('admin.geofence.index');
-Route::post('/admin/geofence/update', [GeofenceController::class, 'update'])->name('admin.geofence.update');
-
-// Employee Toggle (Update your existing route to accept coordinates)
-Route::post('/employee/attendance/toggle', [AttendanceController::class, 'toggle'])->name('employee.attendance.toggle');
-
 require __DIR__.'/auth.php';

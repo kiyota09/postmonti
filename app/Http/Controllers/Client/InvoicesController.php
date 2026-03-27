@@ -34,7 +34,7 @@ class InvoicesController extends Controller
         // Calculate percentage of credit used
         $utilization = $creditLimit > 0 ? ($totalOutstanding / $creditLimit) * 100 : 0;
 
-        return Inertia::render('CLIENT/invoices', [
+        return Inertia::render('Client/Invoices', [
             // Passing live data to the Vue frontend
             'invoices' => $invoices,
             'stats' => [

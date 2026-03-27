@@ -39,6 +39,10 @@ import {
     ClipboardCheck,
     FileText,
     Send,
+    ShoppingBag,
+    User,
+    TrendingUp,
+    XCircle
 } from 'lucide-vue-next'
 
 const page = usePage()
@@ -79,8 +83,10 @@ const navItems = computed(() => {
     if (isClient.value) {
         return [
             { label: 'Dashboard', href: route('client.dashboard'), icon: LayoutDashboard },
+            { label: 'Products', href: route('client.products'), icon: ShoppingBag },
             { label: 'Orders', href: route('client.orders'), icon: ShoppingCart },
             { label: 'Invoices', href: route('client.invoices'), icon: Receipt },
+            { label: 'Profile', href: route('client.profile.edit'), icon: User },
             { label: 'Support', href: route('client.support'), icon: HelpCircle },
         ]
     }
@@ -106,6 +112,7 @@ const navItems = computed(() => {
 
     const userRole = user.value?.role?.toUpperCase()
     const userPosition = user.value?.position?.toLowerCase()
+    const manufacturingRole = user.value?.manufacturing_role
 
     // --- Trainee Specific Routing ---
     if (userPosition === 'trainee') {
@@ -157,6 +164,7 @@ const navItems = computed(() => {
     if (userRole === 'SCM') {
         if (userPosition === 'manager') {
             items.push(
+                { label: 'Sales Orders', href: route('scm.manager.sales-orders'), icon: ShoppingCart },
                 { label: 'Payment Approval', href: route('scm.manager.payments'), icon: HandCoins },
                 { label: 'Vendor Management', href: route('scm.manager.vendor'), icon: ChartNoAxesCombined },
                 { label: 'Close', href: route('scm.manager.close'), icon: DoorOpen }
@@ -178,18 +186,89 @@ const navItems = computed(() => {
 
     // --- Manufacturing Plant (MAN) ---
     if (userRole === 'MAN') {
-        items.push({ label: 'Manufacturing', href: userPosition === 'manager' ? route('man.manager.dashboard') : route('man.employee.dashboard'), icon: Factory })
-        items.push({ label: 'Production Orders', href: userPosition === 'manager' ? route('man.manager.dashboard') : route('man.employee.dashboard'), icon: ClipboardList })
-        items.push({ label: 'Machine Status', href: userPosition === 'manager' ? route('man.manager.dashboard') : route('man.employee.dashboard'), icon: Settings })
-        items.push({ label: 'Maintenance', href: userPosition === 'manager' ? route('man.manager.dashboard') : route('man.employee.dashboard'), icon: Receipt })
+        if (userPosition === 'manager') {
+            // Manager links
+            items.push(
+                { label: 'Manufacturing Dashboard', href: route('man.manager.dashboard'), icon: Factory },
+                { label: 'Production Orders', href: route('man.manager.production'), icon: ClipboardList },
+                { label: 'Rejected Items', href: route('man.manager.rejected'), icon: XCircle }
+            );
+        } else {
+            // Staff: show links based on manufacturing_role
+            const roleToRoutes = {
+                knitting_yarn: {
+                    dashboard: 'man.staff.knitting-yarn.dashboard',
+                    work: 'man.staff.knitting-yarn.page',
+                    reports: 'man.staff.knitting-yarn.reports'
+                },
+                dyeing_color: {
+                    dashboard: 'man.staff.dyeing-color.dashboard',
+                    work: 'man.staff.dyeing-color.page',
+                    reports: 'man.staff.dyeing-color.reports'
+                },
+                dyeing_fabric_softener: {
+                    dashboard: 'man.staff.dyeing-fabric-softener.dashboard',
+                    work: 'man.staff.dyeing-fabric-softener.page',
+                    reports: 'man.staff.dyeing-fabric-softener.reports'
+                },
+                dyeing_squeezer: {
+                    dashboard: 'man.staff.dyeing-squeezer.dashboard',
+                    work: 'man.staff.dyeing-squeezer.page',
+                    reports: 'man.staff.dyeing-squeezer.reports'
+                },
+                dyeing_ironing: {
+                    dashboard: 'man.staff.dyeing-ironing.dashboard',
+                    work: 'man.staff.dyeing-ironing.page',
+                    reports: 'man.staff.dyeing-ironing.reports'
+                },
+                dyeing_forming: {
+                    dashboard: 'man.staff.dyeing-forming.dashboard',
+                    work: 'man.staff.dyeing-forming.page',
+                    reports: 'man.staff.dyeing-forming.reports'
+                },
+                dyeing_packaging: {
+                    dashboard: 'man.staff.dyeing-packaging.dashboard',
+                    work: 'man.staff.dyeing-packaging.page',
+                    reports: null
+                },
+                maintenance_checker: {
+                    dashboard: 'man.staff.maintenance-checker.dashboard',
+                    work: 'man.staff.maintenance-checker.page',
+                    reports: 'man.staff.maintenance-checker.reports'
+                },
+                checker_quality: {
+                    dashboard: 'man.staff.checker-quality.dashboard',
+                    work: 'man.staff.checker-quality.production',
+                    reports: null
+                }
+            };
+
+            const routes = roleToRoutes[manufacturingRole];
+            if (routes) {
+                items.push({ label: 'Manufacturing Dashboard', href: route(routes.dashboard), icon: Factory });
+                if (routes.work) {
+                    let workLabel = 'My Work';
+                    if (manufacturingRole === 'dyeing_packaging') workLabel = 'Packaging';
+                    if (manufacturingRole === 'checker_quality') workLabel = 'Production Control';
+                    items.push({ label: workLabel, href: route(routes.work), icon: ClipboardList });
+                }
+                if (routes.reports) {
+                    items.push({ label: 'Reports', href: route(routes.reports), icon: FileText });
+                }
+            }
+            // If no role is assigned, do NOT add any link – the controller will show a message.
+        }
     }
 
     // --- Inventory & Logistics (INV) ---
     if (userRole === 'INV') {
         items.push({ label: 'Inventory', href: userPosition === 'manager' ? route('inv.manager.inventory') : route('inv.employee.dashboard'), icon: Boxes })
         if (userPosition === 'manager') {
-            items.push({ label: 'Master Materials', href: route('inv.manager.material'), icon: Spool })
-            items.push({ label: 'Master Products', href: route('inv.manager.product'), icon: Building2 })
+            items.push(
+                { label: 'Production Planning', href: route('inv.manager.production-planning'), icon: TrendingUp },
+                { label: 'Master Materials', href: route('inv.manager.material'), icon: Spool },
+                { label: 'Master Products', href: route('inv.manager.product'), icon: Building2 }
+            )
         }
     }
 
@@ -218,12 +297,18 @@ const navItems = computed(() => {
     if (userRole === 'ECO') {
         if (userPosition === 'manager') {
             items.push(
+
+                { label: 'Store', href: route('eco.manager.store'), icon: ShoppingBag },
+                { label: 'Quotations', href: route('eco.manager.quotations'), icon: FileText },
+                { label: 'Orders', href: route('eco.manager.orders'), icon: ShoppingCart },
                 { label: 'Credit MGMT', href: route('eco.manager.credit'), icon: CreditCard },
-                { label: 'Book MGMT', href: route('eco.manager.book'), icon: Book },
+                { label: 'Book MGMT', href: route('eco.manager.book'), icon: Book }
             )
         } else {
-            items.push({ label: 'Online Store', href: route('eco.employee.products'), icon: Globe })
-            items.push({ label: 'Order Management', href: route('eco.employee.ordermng'), icon: ShoppingBasket })
+            items.push(
+                { label: 'Online Store', href: route('eco.employee.products'), icon: Globe },
+                { label: 'Order Management', href: route('eco.employee.ordermng'), icon: ShoppingBasket }
+            )
         }
     }
 

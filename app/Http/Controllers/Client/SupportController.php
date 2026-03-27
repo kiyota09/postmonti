@@ -10,6 +10,6 @@ class SupportController extends Controller
     public function support()
     {
         // TODO: Replace dummy stats with actual DB queries
-        return Inertia::render('CLIENT/support');
+        return Inertia::render('Client/Support');
     }
 }

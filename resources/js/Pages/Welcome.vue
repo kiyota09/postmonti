@@ -8,8 +8,6 @@ defineProps<{
     phpVersion: string;
 }>();
 
-// Omitted modules array as they were not actively being used in the template, 
-// keeping the script clean and focused.
 </script>
 
 <template>
@@ -255,3 +253,9 @@ defineProps<{
     font-family: 'JetBrains Mono', monospace;
 }
 </style>
+
+
+
+
+
+

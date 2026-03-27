@@ -45,4 +45,9 @@ class CrmLead extends Model
     {
         return $this->hasMany(LeadApprovalFile::class, 'lead_id');
     }
+
+    public function assignedStaff()
+    {
+        return $this->belongsTo(User::class, 'assigned_staff_id');
+    }
 }

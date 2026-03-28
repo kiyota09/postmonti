@@ -82,6 +82,7 @@ class CustomerprofileController extends Controller
             'interactionHistory' => $interactionHistory,
             'liveProduction' => $liveProduction,
         ]);
+        
     }
 
     public function storeInteraction(Request $request)
@@ -103,3 +104,22 @@ class CustomerprofileController extends Controller
         return back()->with('message', 'Interaction successfully recorded.');
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

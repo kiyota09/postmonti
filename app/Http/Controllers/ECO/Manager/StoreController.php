@@ -83,7 +83,7 @@ class StoreController extends Controller
             ];
         })->values();
 
-        return Inertia::render('Dashboard/ECO/Manager/store', [
+        return Inertia::render('Dashboard/ECO/Manager/Store', [
             'products' => $products,
             'filters' => $request->only(['search', 'category']),
         ]);

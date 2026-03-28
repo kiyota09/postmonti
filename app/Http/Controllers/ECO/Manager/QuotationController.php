@@ -22,7 +22,7 @@ class QuotationController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return Inertia::render('Dashboard/ECO/Manager/quotations', [
+        return Inertia::render('Dashboard/ECO/Manager/Quotations', [
             'quotations' => $quotations,
         ]);
     }
@@ -34,7 +34,7 @@ class QuotationController extends Controller
     {
         $quotation = ClientQuotation::with(['client', 'items.product'])->findOrFail($id);
 
-        return Inertia::render('Dashboard/ECO/Manager/quotations/show', [
+        return Inertia::render('Dashboard/ECO/Manager/Quotations/Show', [
             'quotation' => $quotation,
         ]);
     }

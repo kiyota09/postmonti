@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\ECO;
 
 use App\Http\Controllers\Controller;
-use App\Models\inv\Product as InvProduct;
+use App\Models\INV\Product as InvProduct;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use Inertia\Inertia;

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\INV\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Models\inv\Material;
-use App\Models\inv\WarehouseMaterial;
+use App\Models\INV\Material;
+use App\Models\INV\WarehouseMaterial;
 use App\Models\PurchaseOrder;
-use App\Models\Scm\MaterialRequest;
+use App\Models\SCM\MaterialRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

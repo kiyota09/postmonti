@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\client;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Models\inv\Product as InvProduct;
+use App\Models\INV\Product as InvProduct;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -38,7 +38,7 @@ class ProductController extends Controller
                 ];
             });
 
-        return Inertia::render('CLIENT/products', [
+        return Inertia::render('Client/Products', [
             'products' => $products,
             'client' => $client,
         ]);

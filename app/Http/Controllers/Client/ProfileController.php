@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\client;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ class ProfileController extends Controller
     {
         $client = auth('client')->user();
 
-        return Inertia::render('CLIENT/profile', ['client' => $client]);
+        return Inertia::render('Client/Profile', ['client' => $client]);
     }
 
     public function update(Request $request)

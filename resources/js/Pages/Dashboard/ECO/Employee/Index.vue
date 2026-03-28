@@ -52,6 +52,7 @@ const filtered = computed(() => {
             p.product_id.toLowerCase().includes(q)
         );
     }
+
     if (catFilter.value !== 'All') list = list.filter(p => p.category === catFilter.value);
     return [...list].sort((a, b) => {
         const aHas = a.images && a.images.length > 0 ? 0 : 1;
@@ -91,6 +92,7 @@ const startAutoSlide = (id, total) => {
         cardSlide.value[id] = ((cardSlide.value[id] ?? 0) + 1) % total;
     }, 3000);
 };
+
 const stopAutoSlide = (id) => {
     if (autoSlideIntervals[id]) { clearInterval(autoSlideIntervals[id]); delete autoSlideIntervals[id]; }
 };
